@@ -8,21 +8,29 @@
 {% block body_block %}
     <h1>Rango says...</h1>
     <div>
-        hey there partner! <br />
+        {% if user.is_authenticated %}
+            howdy {{ user.username }}!
+        {% else %}
+            hey there partner!
+        {% endif %}
         <strong>{{ boldmessage }}</strong><br />
+    </div>
+
+    <div>
+        <p>Visits: {{ visits }}</p>
     </div>
 
     <div>
         <h2>Most Liked Categories</h2>
         {% if categories %}
-        <ul>
-        {% for category in categories %}
-            <li><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a></li>
-        {% endfor %}
-        </ul>
+            <ul>
+            {% for category in categories %}
+                <li><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a></li>
+            {% endfor %}
+            </ul>
 
         {% else %}
-        <strong>There are no categories present.</strong>
+            <strong>There are no categories present.</strong>
         {% endif %}
     </div>
 
@@ -35,9 +43,9 @@
             {% endfor %}
         </ul>
 
-            {% else %}
+        {% else %}
             <strong>There are no pages present.</strong>
-            {% endif %}
+        {% endif %}
         </div>
 
     <div>
